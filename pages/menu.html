@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hex Menu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Libre Baskerville", serif;
+      font-size: 16px;
+      line-height: 30px;
+      background: url('https://media.giphy.com/media/BHNfhgU63qrks/giphy.gif') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      overflow-x: hidden;
+      color: #ababab;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Optional overlay for better contrast */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -2;
+    }
+
+    .title {
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #000;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+
+    .home-icon {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 50px;
+      color: white;
+      text-shadow: 0 0 8px #000;
+      z-index: 1000;
+    }
+
+    .home-icon:hover {
+      color: #f90a23;
+    }
+
+    .hex-grid {
+      display: flex;
+      flex-wrap: wrap;
+      width: 95vw;
+      max-width: 1200px;
+      justify-content: center;
+      gap: 20px;
+      padding-bottom: 40px;
+    }
+
+    .hex {
+      width: 180px;
+      height: 200px;
+      background: rgba(0, 0, 0, 0.6);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(2px);
+    }
+
+    .hex::before,
+    .hex::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      clip-path: inherit;
+      border: 4px solid transparent;
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+
+    .hex::before {
+      transform: scale(1.08);
+    }
+
+    .hex::after {
+      transform: scale(1.16);
+    }
+
+    .hex:hover::before,
+    .hex:hover::after {
+      border-color: #ff004c;
+    }
+
+    .hex:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 0, 76, 0.5);
+    }
+
+    .hex i {
+      font-size: 30px;
+      margin-bottom: 10px;
+      z-index: 1;
+    }
+
+    .hex span {
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    a.hex {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+      background-color: #F5F5F5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #f90a23;
+      background-image: -webkit-linear-gradient(45deg,
+        rgba(255, 255, 255, .2) 25%, transparent 25%,
+        transparent 50%, rgba(255, 255, 255, .2) 50%,
+        rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+    }
+
+    ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      background-color: #F5F5F5;
+    }
+
+    @media screen and (max-width: 600px) {
+      .hex {
+        width: 120px;
+        height: 100px;
+      }
+
+      .hex i {
+        font-size: 20px;
+      }
+
+      .hex span {
+        font-size: 14px;
+      }
+
+      .title {
+        font-size: 32px;
+      }
+    }
+
+    .hex:hover span {
+      animation: focus-in-contract 0.5s ease both;
+    }
+
+    @keyframes focus-in-contract {
+      0% {
+        letter-spacing: 1em;
+        filter: blur(12px);
+        opacity: 0;
+      }
+      100% {
+        filter: blur(0px);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home Icon -->
+  <a href="../landing-page.html" class="home-icon">
+    <i class="fas fa-home"></i>
+  </a>
+
+  <!-- Page Title -->
+  <h1 class="title"><br><br>Pick Your Power Quest<br><br></h1>
+
+  <!-- Hexagon Menu -->
+  <div class="hex-grid">
+    <a href="watch.html" class="hex">
+      <i class="fas fa-eye"></i>
+      <span>WATCH</span>
+    </a>
+    <a href="quiz_menu.html" class="hex">
+      <i class="fas fa-book"></i>
+      <span>LEARN</span>
+    </a>
+    <a href="story_menu.html" class="hex">
+      <i class="fas fa-pen-nib"></i>
+      <span>STORIES</span>
+    </a>
+    <a href="activity1-games.html" class="hex">
+      <i class="fas fa-gamepad"></i>
+      <span>GAMES</span>
+    </a>
+    <a href="achive.html" class="hex">
+      <i class="fas fa-medal"></i>
+      <span>ACHIEVERS</span>
+    </a>
+    <a href="helpcenter.html" class="hex">
+      <i class="fas fa-question-circle"></i>
+      <span>HELP</span>
+    </a>
+    <a href="feedback.html" class="hex">
+      <i class="fas fa-comment-dots"></i>
+      <span>FEEDBACK</span>
+    </a>
+  </div>
+
+  <!-- Chatbot Script -->
+  <script>
+    window.embeddedChatbotConfig = {
+      chatbotId: "Z6bC1byLlrHRfpt8y14F1",
+      domain: "www.chatbase.co"
+    }
+  </script>
+  <script 
+    src="https://www.chatbase.co/embed.min.js" 
+    chatbotId="Z6bC1byLlrHRfpt8y14F1" 
+    domain="www.chatbase.co" 
+    defer>
+  </script>
+
+</body>
+</html>

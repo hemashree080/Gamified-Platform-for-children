@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children's Legal Rights Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background: url('https://p7.hiclipart.com/preview/455/855/645/universal-declaration-of-human-rights-childrens-rights-convention-on-the-rights-of-the-child-children-around-the-globe.jpg') no-repeat center center fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #game-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #question-container {
+            margin-bottom: 20px;
+        }
+
+        #question {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        #feedback {
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .correct {
+            background-color: #28a745;
+        }
+
+        .wrong {
+            background-color: #dc3545;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #home-logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="menu.html"><img src="../assets/asset images/home_button.png" alt="home" id="home-logo"></a> 
+    </div>
+    <div id="game-container">
+        <h1>Know Your Rights!</h1>
+        <div id="question-container">
+            <div id="question">Question will appear here</div>
+            <div id="answer-buttons" class="btn-container">
+                <!-- Buttons will be dynamically added here -->
+            </div>
+        </div>
+
+        <div id="feedback"></div>
+        <button id="next-button" class="btn hide">Next</button>
+        <button id="end-game-button" class="btn">End Game</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the minimum age to start working in many countries?",
+                answers: [
+                    { text: "14", correct: true },
+                    { text: "12", correct: false },
+                    { text: "16", correct: false },
+                    { text: "10", correct: false }
+                ]
+            },
+            {
+                question: "Do children have the right to go to school?",
+                answers: [
+                    { text: "Yes", correct: true },
+                    { text: "No", correct: false },
+                    { text: "Only boys", correct: false },
+                    { text: "Only girls", correct: false }
+                ]
+            },
+            // Add more questions here
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+
+        const questionElement = document.getElementById('question');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-button');
+        const endGameButton = document.getElementById('end-game-button');
+
+        // Start the game
+        startGame();
+
+        function startGame() {
+            showQuestion();
+            endGameButton.addEventListener('click', endGame);
+        }
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+
+            // Clear previous answers
+            answerButtonsElement.innerHTML = '';
+
+            // Create buttons for each answer
+            currentQuestion.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.textContent = answer.text;
+                button.classList.add('btn');
+                button.addEventListener('click', () => selectAnswer(answer));
+                answerButtonsElement.appendChild(button);
+            });
+
+            // Reset feedback
+            feedbackElement.textContent = '';
+
+            // Hide next button
+            nextButton.classList.add('hide');
+        }
+
+        function selectAnswer(answer) {
+            const isCorrect = answer.correct;
+            if (isCorrect) {
+                feedbackElement.textContent = 'Correct!';
+                feedbackElement.classList.add('correct');
+                correctAnswers++;
+            } else {
+                feedbackElement.textContent = 'Wrong! Try again.';
+                feedbackElement.classList.add('wrong');
+                incorrectAnswers++;
+            }
+
+            // Highlight correct answer
+            Array.from(answerButtonsElement.children).forEach(button => {
+                if (answer.correct && button.textContent === answer.text) {
+                    button.classList.add('correct');
+                } else {
+                    button.classList.add('wrong');
+                }
+            });
+
+            // Show next button
+            nextButton.classList.remove('hide');
+
+            // Disable answer buttons after selection
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+            });
+        }
+
+        function nextQuestion() {
+            // Clear feedback and button styles
+            feedbackElement.textContent = '';
+            feedbackElement.classList.remove('correct', 'wrong');
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.classList.remove('correct', 'wrong');
+                button.disabled = false;
+            });
+
+            // Increment question index
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                // End of game
+                endGame();
+            }
+        }
+
+        nextButton.addEventListener('click', nextQuestion);
+
+        function endGame() {
+            // Display alert with game summary
+            alert(`Game Over!\nCorrect Answers: ${correctAnswers}\nIncorrect Answers: ${incorrectAnswers}`);
+
+            // Reset game state
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            showQuestion();
+        }
+    </script>
+</body>
+</html>
